@@ -1,0 +1,28 @@
+version: "3"
+services:
+  springboot-app:
+     image: springboot-app
+     build: .
+     ports:
+      - 8000:8000
+     environment:
+       - spring.datasource.url=jdbc:mysql://localhost:3306/tenant_1?useSSL=false
+     networks:
+       - springmysql-net
+     depends_on:
+       - mysqldb
+   
+  mysqldb:
+    image: mysql:5.7
+    networks:
+      - springmysql-net
+    environment:
+      - MYSQL_ROOT_PASSWORD=root
+      - MYSQL_DATABASE=tenant_1
+      
+      - MYSQL_PASSWORD=root
+    ports:
+       - 3307:3306
+
+networks:
+  springmysql-net:
